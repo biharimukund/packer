@@ -41,3 +41,13 @@ virtualbox-iso output will be in this color.
 Build 'virtualbox-iso' finished.
 
 =====================================================================
+
+Below files are generated in the root dir from where the command is run:
+
+mukund_bihari$ cd output-virtualbox-iso/
+output-virtualbox-iso mukund_bihari$ ll
+total 1442768
+-rwx------  1 mukund mukund       6647 Dec  1 23:28 packer-virtualbox-iso-1543686774.ovf
+-rw-r--r--  1 mukund mukund  732568064 Dec  1 23:28 packer-virtualbox-iso-1543686774-disk001.vmdk
+
+```
