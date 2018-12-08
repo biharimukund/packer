@@ -81,7 +81,7 @@ After these steps you can run the packet to build VMs in ESXi using below comman
 **packer build centos7-vmware.json**
 
 Sample Output for vmware-iso:
-=========================================
+
 
 ![Alt text](img/vmware_iso_output.jpeg?raw=true "vmware_iso_output")
 
