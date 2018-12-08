@@ -2,8 +2,12 @@
 
 This repo can be used to create images for VMs using packer on Virtual Box or ESXi.
 
-##centos7-vbox.json can be used to commision a Centos VM tempalte for Virtual Box.
+## Steps for Virtual Box
 
+* You need go have virtual Box installed on your local machine.
+* It should be net adapters so that internet is accessible( most of the times this does not works)
+
+### centos7-vbox.json can be used to commision a Centos VM tempalte for Virtual Box.
 
 **Command: packer build centos7-vbox.json**
 
@@ -53,9 +57,11 @@ total 1442768
 
 ```
 
-##centos7-vmware.json can be used to commision a Centos VM tempalte on ESXi.
+## Steps for ESXi
 
-_You can set ESXi on you local machine by downloading the VMware-VMvisor-Installer-6.7.0-8169922.x86_64.iso available on VMware official website. Trail copy has vailidity of 60 days. After it expires, simply uninstall it and resinstall to use it for next 60 days. Do not forget to take backup while uninstalling._
+### centos7-vmware.json can be used to commision a Centos VM tempalte on ESXi.
+
+_You can set ESXi on you local machine by downloading the VMware-VMvisor-Installer-6.7.0-8169922.x86_64.iso available on VMware official website. Trail copy has vailidity of 60 days. After it expires, simply uninstall it and resinstall to use it for next 60 days. Do not forget to take backup while uninstalling so that all of your machines data is intact which can be re-used for next installation._
 
 You need to enable SSH in you ESXI host so that pakcer can connect to it. If you are using Mac, then you need to install VMware Fusion which will run the ESXi on your local machine.
 
