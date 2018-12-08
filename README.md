@@ -5,7 +5,7 @@ This repo can be used to create images for VMs using packer on Virtual Box or ES
 ## Steps for Virtual Box
 
 * You need go have virtual Box installed on your local machine.
-* It should be net adapters so that internet is accessible( most of the times this does not works)
+* It should have proper net adapters so that internet is accessible( most of the times internet does not works on vbox).
 
 ### centos7-vbox.json can be used to commision a Centos VM tempalte for Virtual Box.
 
