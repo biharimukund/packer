@@ -1,0 +1,62 @@
+{
+    "builders": [
+    {
+      "type": "vmware-iso",
+      "vm_name": "coreos-{{user `channel`}}-{{user `coreos_version`}}",
+      "name": "coreos-{{user `channel`}}",
+      "iso_checksum": "{{user `checksum`}}",
+      "iso_checksum_type": "{{user `checksum_type`}}",
+      "iso_url": "http://{{user `channel`}}.release.core-os.net/amd64-usr/{{user `coreos_version`}}/coreos_production_iso_image.iso",
+      "http_directory": "files",
+      "ssh_port": 22,
+      "ssh_username": "core",
+      "ssh_private_key_file": "./files/vagrant",
+      "ssh_wait_timeout": "50m",
+      "guest_os_type": "otherlinux-64",
+      "disk_size": 40960,
+      "disk_type_id": "thin",
+      "vnc_disable_password": true,
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "2048",
+        "numvcpus": "2",
+        "vhv.enable": "TRUE",
+        "ethernet0.networkName": "VM Network"
+      },        
+      "boot_command": [
+        "sudo -i<enter>",
+        "systemctl stop sshd.socket<enter>",
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.yml<enter>",
+        "coreos-install -d /dev/sda -C {{user `channel`}} -c install.yml<enter>",
+        "reboot<enter>"  
+      ],
+      "boot_wait": "10s",
+      "shutdown_command": "sudo -S shutdown -P now",
+      "remote_type": "esx5",
+      "remote_host": "{{user `esxi_host`}}",
+      "remote_datastore": "{{user `esxi_datastore`}}",
+      "remote_username": "{{user `esxi_username`}}",
+      "remote_password": "{{user `esxi_password`}}",
+      "keep_registered": true,
+      "output_directory": "builds/coreos-{{user `channel`}}-{{user `coreos_human_version`}}-vmware"
+    }
+    ],
+    "provisioners": [
+      {
+        "type": "shell",
+        "execute_command": "echo 'test' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+        "script": "scripts/provision_vbox.sh"
+      }
+    ],
+    "variables": {
+      "channel": "stable",
+      "coreos_version": "1688.5.3",
+      "coreos_human_version": "1688.5.3",
+      "checksum_type": "sha256",
+      "checksum": "12cd1768cd62015c1a3dbe54456b43f5abe18087ae6cb896a587681b91f6a378",
+      "esxi_host": "192.168.200.130",
+      "esxi_datastore": "datastore1",
+      "esxi_username": "root",
+      "esxi_password": "Sharma@6829"
+    }
+  }
