@@ -713,3 +713,522 @@ Build 'coreos-stable' finished.
 
 ```
 
+## Steps for AWS AMI 
+
+We are using an existing Amazon Linux Image “Gold Image” from the marketplace and bake the latest Docker community edition in the ec2 instance and create a custom AMI. You need to store your AWS key ID and access in a file named: ~/.aws/credentials. If its not there, simple create the file and mention the creds as below(the mentioned ones are just for illustrative purpose and may not work):
+
+```
+[default]
+aws_access_key_id=ADFJKNAKDSFKASJKDFJKJVCCI
+aws_secret_access_key=9adfvkjadjkJJDFNKdfv8wjkdfvadskfv82k
+
+```
+
+**Command: packer build amazon-ebs-docker.json**
+
+Sample o/p for AMI creation:
+
+```
+amazon-ebs output will be in this color.
+
+==> amazon-ebs: Prevalidating AMI Name: docker-17.12.1-ce
+    amazon-ebs: Found Image ID: ami-1853ac65
+==> amazon-ebs: Creating temporary keypair: packer_5c0bec8f-3203-d525-25a8-7e4b27c27ba8
+==> amazon-ebs: Creating temporary security group for this instance: packer_5c0bec91-fd7e-aaa4-e980-46e505c7c5e4
+==> amazon-ebs: Authorizing access to port 22 from 0.0.0.0/0 in the temporary security group...
+==> amazon-ebs: Launching a source AWS instance...
+==> amazon-ebs: Adding tags to source instance
+    amazon-ebs: Adding tag: "Name": "packer-builder-docker"
+    amazon-ebs: Adding tag: "Tool": "Packer"
+    amazon-ebs: Adding tag: "Author": "biharimukund"
+    amazon-ebs: Instance ID: i-0190a4ebd4dcdc49b
+==> amazon-ebs: Waiting for instance (i-0190a4ebd4dcdc49b) to become ready...
+==> amazon-ebs: Using ssh communicator to connect: 54.84.105.229
+==> amazon-ebs: Waiting for SSH to become available...
+==> amazon-ebs: Connected to SSH!
+==> amazon-ebs: Provisioning with shell script: scripts/aws-docker.sh
+    amazon-ebs: Loaded plugins: priorities, update-motd, upgrade-helper
+    amazon-ebs: Resolving Dependencies
+    amazon-ebs: --> Running transaction check
+    amazon-ebs: ---> Package amazon-ssm-agent.x86_64 0:2.2.120.0-1.amzn1 will be updated
+    amazon-ebs: ---> Package amazon-ssm-agent.x86_64 0:2.3.274.0-1.amzn1 will be an update
+    amazon-ebs: ---> Package aws-cfn-bootstrap.noarch 0:1.4-29.20.amzn1 will be updated
+    amazon-ebs: ---> Package aws-cfn-bootstrap.noarch 0:1.4-30.21.amzn1 will be an update
+    amazon-ebs: ---> Package aws-cli.noarch 0:1.14.9-1.48.amzn1 will be updated
+    amazon-ebs: ---> Package aws-cli.noarch 0:1.15.83-1.49.amzn1 will be an update
+    amazon-ebs: ---> Package ca-certificates.noarch 0:2015.2.6-65.0.1.16.amzn1 will be updated
+    amazon-ebs: ---> Package ca-certificates.noarch 0:2017.2.14-65.0.1.17.amzn1 will be an update
+    amazon-ebs: ---> Package cloud-init.noarch 0:0.7.6-2.15.amzn1 will be updated
+    amazon-ebs: ---> Package cloud-init.noarch 0:0.7.6-2.17.amzn1 will be an update
+    amazon-ebs: ---> Package curl.x86_64 0:7.53.1-14.81.amzn1 will be updated
+    amazon-ebs: ---> Package curl.x86_64 0:7.53.1-16.85.amzn1 will be an update
+    amazon-ebs: ---> Package e2fsprogs.x86_64 0:1.42.12-4.40.amzn1 will be updated
+    amazon-ebs: ---> Package e2fsprogs.x86_64 0:1.43.5-2.43.amzn1 will be an update
+    amazon-ebs: --> Processing Dependency: libfuse.so.2(FUSE_2.8)(64bit) for package: e2fsprogs-1.43.5-2.43.amzn1.x86_64
+    amazon-ebs: --> Processing Dependency: libfuse.so.2(FUSE_2.6)(64bit) for package: e2fsprogs-1.43.5-2.43.amzn1.x86_64
+    amazon-ebs: --> Processing Dependency: libfuse.so.2(FUSE_2.5)(64bit) for package: e2fsprogs-1.43.5-2.43.amzn1.x86_64
+    amazon-ebs: --> Processing Dependency: libfuse.so.2()(64bit) for package: e2fsprogs-1.43.5-2.43.amzn1.x86_64
+    amazon-ebs: ---> Package e2fsprogs-libs.x86_64 0:1.42.12-4.40.amzn1 will be updated
+    amazon-ebs: ---> Package e2fsprogs-libs.x86_64 0:1.43.5-2.43.amzn1 will be an update
+    amazon-ebs: ---> Package ec2-net-utils.noarch 0:0.5-1.34.amzn1 will be updated
+    amazon-ebs: ---> Package ec2-net-utils.noarch 0:0.5-2.35.amzn1 will be an update
+    amazon-ebs: ---> Package ec2-utils.noarch 0:0.5-1.34.amzn1 will be updated
+    amazon-ebs: ---> Package ec2-utils.noarch 0:0.5-2.35.amzn1 will be an update
+    amazon-ebs: ---> Package hwdata.noarch 0:0.233-14.1.18.amzn1 will be updated
+    amazon-ebs: ---> Package hwdata.noarch 0:0.233-14.1.19.amzn1 will be an update
+    amazon-ebs: ---> Package irqbalance.x86_64 2:1.3.0-1.26.amzn1 will be updated
+    amazon-ebs: ---> Package irqbalance.x86_64 2:1.5.0-1.27.amzn1 will be an update
+    amazon-ebs: ---> Package kernel.x86_64 0:4.14.77-70.82.amzn1 will be installed
+    amazon-ebs: ---> Package krb5-libs.x86_64 0:1.15.1-8.43.amzn1 will be updated
+    amazon-ebs: ---> Package krb5-libs.x86_64 0:1.15.1-19.43.amzn1 will be an update
+    amazon-ebs: ---> Package libcom_err.x86_64 0:1.42.12-4.40.amzn1 will be updated
+    amazon-ebs: ---> Package libcom_err.x86_64 0:1.43.5-2.43.amzn1 will be an update
+    amazon-ebs: ---> Package libcurl.x86_64 0:7.53.1-14.81.amzn1 will be updated
+    amazon-ebs: ---> Package libcurl.x86_64 0:7.53.1-16.85.amzn1 will be an update
+    amazon-ebs: ---> Package libss.x86_64 0:1.42.12-4.40.amzn1 will be updated
+    amazon-ebs: ---> Package libss.x86_64 0:1.43.5-2.43.amzn1 will be an update
+    amazon-ebs: ---> Package libxml2.x86_64 0:2.9.1-6.3.49.amzn1 will be updated
+    amazon-ebs: ---> Package libxml2.x86_64 0:2.9.1-6.3.52.amzn1 will be an update
+    amazon-ebs: ---> Package libxml2-python27.x86_64 0:2.9.1-6.3.49.amzn1 will be updated
+    amazon-ebs: ---> Package libxml2-python27.x86_64 0:2.9.1-6.3.52.amzn1 will be an update
+    amazon-ebs: ---> Package ntp.x86_64 0:4.2.6p5-44.34.amzn1 will be updated
+    amazon-ebs: ---> Package ntp.x86_64 0:4.2.8p12-1.39.amzn1 will be an update
+    amazon-ebs: ---> Package ntpdate.x86_64 0:4.2.6p5-44.34.amzn1 will be updated
+    amazon-ebs: ---> Package ntpdate.x86_64 0:4.2.8p12-1.39.amzn1 will be an update
+    amazon-ebs: ---> Package openldap.x86_64 0:2.4.40-12.30.amzn1 will be updated
+    amazon-ebs: ---> Package openldap.x86_64 0:2.4.40-16.31.amzn1 will be an update
+    amazon-ebs: ---> Package openssh.x86_64 0:7.4p1-11.68.amzn1 will be updated
+    amazon-ebs: ---> Package openssh.x86_64 0:7.4p1-16.71.amzn1 will be an update
+    amazon-ebs: ---> Package openssh-clients.x86_64 0:7.4p1-11.68.amzn1 will be updated
+    amazon-ebs: ---> Package openssh-clients.x86_64 0:7.4p1-16.71.amzn1 will be an update
+    amazon-ebs: ---> Package openssh-server.x86_64 0:7.4p1-11.68.amzn1 will be updated
+    amazon-ebs: ---> Package openssh-server.x86_64 0:7.4p1-16.71.amzn1 will be an update
+    amazon-ebs: ---> Package openssl.x86_64 1:1.0.2k-8.106.amzn1 will be updated
+    amazon-ebs: ---> Package openssl.x86_64 1:1.0.2k-16.146.amzn1 will be an update
+    amazon-ebs: ---> Package procps.x86_64 0:3.2.8-30.14.amzn1 will be updated
+    amazon-ebs: ---> Package procps.x86_64 0:3.2.8-45.16.amzn1 will be an update
+    amazon-ebs: ---> Package python27.x86_64 0:2.7.13-2.122.amzn1 will be updated
+    amazon-ebs: ---> Package python27.x86_64 0:2.7.15-1.124.amzn1 will be an update
+    amazon-ebs: ---> Package python27-botocore.noarch 0:1.8.13-1.66.amzn1 will be updated
+    amazon-ebs: ---> Package python27-botocore.noarch 0:1.10.82-1.67.amzn1 will be an update
+    amazon-ebs: ---> Package python27-crypto.x86_64 0:2.6.1-1.14.amzn1 will be updated
+    amazon-ebs: ---> Package python27-crypto.x86_64 0:2.6.1-1.15.amzn1 will be an update
+    amazon-ebs: ---> Package python27-devel.x86_64 0:2.7.13-2.122.amzn1 will be updated
+    amazon-ebs: ---> Package python27-devel.x86_64 0:2.7.15-1.124.amzn1 will be an update
+    amazon-ebs: ---> Package python27-libs.x86_64 0:2.7.13-2.122.amzn1 will be updated
+    amazon-ebs: ---> Package python27-libs.x86_64 0:2.7.15-1.124.amzn1 will be an update
+    amazon-ebs: ---> Package python27-pip.noarch 0:9.0.1-1.24.amzn1 will be updated
+    amazon-ebs: ---> Package python27-pip.noarch 0:9.0.3-1.26.amzn1 will be an update
+    amazon-ebs: ---> Package rpcbind.x86_64 0:0.2.0-13.9.amzn1 will be updated
+    amazon-ebs: ---> Package rpcbind.x86_64 0:0.2.0-13.10.amzn1 will be an update
+    amazon-ebs: ---> Package ruby20.x86_64 0:2.0.0.648-1.30.amzn1 will be updated
+    amazon-ebs: ---> Package ruby20.x86_64 0:2.0.0.648-1.31.amzn1 will be an update
+    amazon-ebs: ---> Package ruby20-irb.noarch 0:2.0.0.648-1.30.amzn1 will be updated
+    amazon-ebs: ---> Package ruby20-irb.noarch 0:2.0.0.648-1.31.amzn1 will be an update
+    amazon-ebs: ---> Package ruby20-libs.x86_64 0:2.0.0.648-1.30.amzn1 will be updated
+    amazon-ebs: ---> Package ruby20-libs.x86_64 0:2.0.0.648-1.31.amzn1 will be an update
+    amazon-ebs: ---> Package rubygem20-bigdecimal.x86_64 0:1.2.0-1.30.amzn1 will be updated
+    amazon-ebs: ---> Package rubygem20-bigdecimal.x86_64 0:1.2.0-1.31.amzn1 will be an update
+    amazon-ebs: ---> Package rubygem20-psych.x86_64 0:2.0.0-1.30.amzn1 will be updated
+    amazon-ebs: ---> Package rubygem20-psych.x86_64 0:2.0.0-1.31.amzn1 will be an update
+    amazon-ebs: ---> Package rubygems20.noarch 0:2.0.14.1-1.30.amzn1 will be updated
+    amazon-ebs: ---> Package rubygems20.noarch 0:2.0.14.1-1.31.amzn1 will be an update
+    amazon-ebs: ---> Package system-release.noarch 0:2017.09-0.1 will be updated
+    amazon-ebs: ---> Package system-release.noarch 0:2018.03-0.0 will be an update
+    amazon-ebs: ---> Package tzdata.noarch 0:2017b-1.69.amzn1 will be updated
+    amazon-ebs: ---> Package tzdata.noarch 0:2018c-1.70.amzn1 will be an update
+    amazon-ebs: ---> Package tzdata-java.noarch 0:2017b-1.69.amzn1 will be updated
+    amazon-ebs: ---> Package tzdata-java.noarch 0:2018c-1.70.amzn1 will be an update
+    amazon-ebs: ---> Package wget.x86_64 0:1.18-3.28.amzn1 will be updated
+    amazon-ebs: ---> Package wget.x86_64 0:1.18-4.29.amzn1 will be an update
+    amazon-ebs: --> Running transaction check
+    amazon-ebs: ---> Package fuse-libs.x86_64 0:2.9.4-1.17.amzn1 will be installed
+    amazon-ebs: --> Finished Dependency Resolution
+    amazon-ebs:
+    amazon-ebs: Dependencies Resolved
+    amazon-ebs:
+    amazon-ebs: ================================================================================
+    amazon-ebs:  Package               Arch    Version                      Repository     Size
+    amazon-ebs: ================================================================================
+    amazon-ebs: Installing:
+    amazon-ebs:  kernel                x86_64  4.14.77-70.82.amzn1          amzn-updates   21 M
+    amazon-ebs: Updating:
+    amazon-ebs:  amazon-ssm-agent      x86_64  2.3.274.0-1.amzn1            amzn-updates   19 M
+    amazon-ebs:  aws-cfn-bootstrap     noarch  1.4-30.21.amzn1              amzn-updates  872 k
+    amazon-ebs:  aws-cli               noarch  1.15.83-1.49.amzn1           amzn-updates  1.2 M
+    amazon-ebs:  ca-certificates       noarch  2017.2.14-65.0.1.17.amzn1    amzn-main     1.3 M
+    amazon-ebs:  cloud-init            noarch  0.7.6-2.17.amzn1             amzn-updates  422 k
+    amazon-ebs:  curl                  x86_64  7.53.1-16.85.amzn1           amzn-updates  330 k
+    amazon-ebs:  e2fsprogs             x86_64  1.43.5-2.43.amzn1            amzn-updates  1.5 M
+    amazon-ebs:  e2fsprogs-libs        x86_64  1.43.5-2.43.amzn1            amzn-updates  208 k
+    amazon-ebs:  ec2-net-utils         noarch  0.5-2.35.amzn1               amzn-updates   14 k
+    amazon-ebs:  ec2-utils             noarch  0.5-2.35.amzn1               amzn-updates   11 k
+    amazon-ebs:  hwdata                noarch  0.233-14.1.19.amzn1          amzn-main     1.5 M
+    amazon-ebs:  irqbalance            x86_64  2:1.5.0-1.27.amzn1           amzn-updates   49 k
+    amazon-ebs:  krb5-libs             x86_64  1.15.1-19.43.amzn1           amzn-updates  861 k
+    amazon-ebs:  libcom_err            x86_64  1.43.5-2.43.amzn1            amzn-updates   47 k
+    amazon-ebs:  libcurl               x86_64  7.53.1-16.85.amzn1           amzn-updates  286 k
+    amazon-ebs:  libss                 x86_64  1.43.5-2.43.amzn1            amzn-updates   52 k
+    amazon-ebs:  libxml2               x86_64  2.9.1-6.3.52.amzn1           amzn-updates  723 k
+    amazon-ebs:  libxml2-python27      x86_64  2.9.1-6.3.52.amzn1           amzn-updates  331 k
+    amazon-ebs:  ntp                   x86_64  4.2.8p12-1.39.amzn1          amzn-updates  1.0 M
+    amazon-ebs:  ntpdate               x86_64  4.2.8p12-1.39.amzn1          amzn-updates   89 k
+    amazon-ebs:  openldap              x86_64  2.4.40-16.31.amzn1           amzn-updates  418 k
+    amazon-ebs:  openssh               x86_64  7.4p1-16.71.amzn1            amzn-updates  639 k
+    amazon-ebs:  openssh-clients       x86_64  7.4p1-16.71.amzn1            amzn-updates  1.1 M
+    amazon-ebs:  openssh-server        x86_64  7.4p1-16.71.amzn1            amzn-updates  511 k
+    amazon-ebs:  openssl               x86_64  1:1.0.2k-16.146.amzn1        amzn-updates  1.8 M
+    amazon-ebs:  procps                x86_64  3.2.8-45.16.amzn1            amzn-updates  250 k
+    amazon-ebs:  python27              x86_64  2.7.15-1.124.amzn1           amzn-updates  103 k
+    amazon-ebs:  python27-botocore     noarch  1.10.82-1.67.amzn1           amzn-updates  4.5 M
+    amazon-ebs:  python27-crypto       x86_64  2.6.1-1.15.amzn1             amzn-main     699 k
+    amazon-ebs:  python27-devel        x86_64  2.7.15-1.124.amzn1           amzn-updates  525 k
+    amazon-ebs:  python27-libs         x86_64  2.7.15-1.124.amzn1           amzn-updates  6.8 M
+    amazon-ebs:  python27-pip          noarch  9.0.3-1.26.amzn1             amzn-updates  2.3 M
+    amazon-ebs:  rpcbind               x86_64  0.2.0-13.10.amzn1            amzn-updates   56 k
+    amazon-ebs:  ruby20                x86_64  2.0.0.648-1.31.amzn1         amzn-main      69 k
+    amazon-ebs:  ruby20-irb            noarch  2.0.0.648-1.31.amzn1         amzn-main      90 k
+    amazon-ebs:  ruby20-libs           x86_64  2.0.0.648-1.31.amzn1         amzn-main     3.7 M
+    amazon-ebs:  rubygem20-bigdecimal  x86_64  1.2.0-1.31.amzn1             amzn-main      79 k
+    amazon-ebs:  rubygem20-psych       x86_64  2.0.0-1.31.amzn1             amzn-main      78 k
+    amazon-ebs:  rubygems20            noarch  2.0.14.1-1.31.amzn1          amzn-main     225 k
+    amazon-ebs:  system-release        noarch  2018.03-0.0                  amzn-main      24 k
+    amazon-ebs:  tzdata                noarch  2018c-1.70.amzn1             amzn-main     808 k
+    amazon-ebs:  tzdata-java           noarch  2018c-1.70.amzn1             amzn-main     225 k
+    amazon-ebs:  wget                  x86_64  1.18-4.29.amzn1              amzn-updates  981 k
+    amazon-ebs: Installing for dependencies:
+    amazon-ebs:  fuse-libs             x86_64  2.9.4-1.17.amzn1             amzn-main      98 k
+    amazon-ebs:
+    amazon-ebs: Transaction Summary
+    amazon-ebs: ================================================================================
+    amazon-ebs: Install   1 Package  (+1 Dependent package)
+    amazon-ebs: Upgrade  43 Packages
+    amazon-ebs:
+    amazon-ebs: Total download size: 77 M
+    amazon-ebs: Downloading packages:
+    amazon-ebs: --------------------------------------------------------------------------------
+    amazon-ebs: Total                                               15 MB/s |  77 MB  00:05
+    amazon-ebs: Running transaction check
+    amazon-ebs: Running transaction test
+    amazon-ebs: Transaction test succeeded
+    amazon-ebs: Running transaction
+    amazon-ebs:   Updating   : libcom_err-1.43.5-2.43.amzn1.x86_64                         1/88
+    amazon-ebs:   Updating   : krb5-libs-1.15.1-19.43.amzn1.x86_64                         2/88
+    amazon-ebs:   Updating   : 1:openssl-1.0.2k-16.146.amzn1.x86_64                        3/88
+    amazon-ebs:   Updating   : python27-libs-2.7.15-1.124.amzn1.x86_64                     4/88
+    amazon-ebs:   Updating   : python27-2.7.15-1.124.amzn1.x86_64                          5/88
+    amazon-ebs:   Updating   : openldap-2.4.40-16.31.amzn1.x86_64                          6/88
+    amazon-ebs:   Updating   : ruby20-libs-2.0.0.648-1.31.amzn1.x86_64                     7/88
+    amazon-ebs:   Updating   : ca-certificates-2017.2.14-65.0.1.17.amzn1.noarch            8/88
+    amazon-ebs: warning: /etc/pki/java/cacerts created as /etc/pki/java/cacerts.rpmnew
+    amazon-ebs: warning: /etc/pki/tls/certs/ca-bundle.crt created as /etc/pki/tls/certs/ca-bundle.crt.rpmnew
+    amazon-ebs: warning: /etc/pki/tls/certs/ca-bundle.trust.crt created as /etc/pki/tls/certs/ca-bundle.trust.crt.rpmnew
+    amazon-ebs:   Updating   : rubygems20-2.0.14.1-1.31.amzn1.noarch                       9/88
+    amazon-ebs:   Updating   : rubygem20-bigdecimal-1.2.0-1.31.amzn1.x86_64               10/88
+    amazon-ebs:   Updating   : ruby20-2.0.0.648-1.31.amzn1.x86_64                         11/88
+    amazon-ebs:   Updating   : rubygem20-psych-2.0.0-1.31.amzn1.x86_64                    12/88
+    amazon-ebs:   Updating   : openssh-7.4p1-16.71.amzn1.x86_64                           13/88
+    amazon-ebs:   Updating   : python27-botocore-1.10.82-1.67.amzn1.noarch                14/88
+    amazon-ebs:   Updating   : libcurl-7.53.1-16.85.amzn1.x86_64                          15/88
+    amazon-ebs:   Updating   : curl-7.53.1-16.85.amzn1.x86_64                             16/88
+    amazon-ebs:   Updating   : ntpdate-4.2.8p12-1.39.amzn1.x86_64                         17/88
+    amazon-ebs:   Updating   : e2fsprogs-libs-1.43.5-2.43.amzn1.x86_64                    18/88
+    amazon-ebs:   Updating   : libss-1.43.5-2.43.amzn1.x86_64                             19/88
+    amazon-ebs:   Installing : kernel-4.14.77-70.82.amzn1.x86_64                          20/88
+    amazon-ebs:   Installing : fuse-libs-2.9.4-1.17.amzn1.x86_64                          21/88
+    amazon-ebs:   Updating   : e2fsprogs-1.43.5-2.43.amzn1.x86_64                         22/88
+    amazon-ebs:   Updating   : procps-3.2.8-45.16.amzn1.x86_64                            23/88
+    amazon-ebs:   Updating   : libxml2-2.9.1-6.3.52.amzn1.x86_64                          24/88
+    amazon-ebs:   Updating   : libxml2-python27-2.9.1-6.3.52.amzn1.x86_64                 25/88
+    amazon-ebs:   Updating   : cloud-init-0.7.6-2.17.amzn1.noarch                         26/88
+    amazon-ebs:   Updating   : 2:irqbalance-1.5.0-1.27.amzn1.x86_64                       27/88
+    amazon-ebs:   Updating   : ntp-4.2.8p12-1.39.amzn1.x86_64                             28/88
+    amazon-ebs:   Updating   : ec2-net-utils-0.5-2.35.amzn1.noarch                        29/88
+    amazon-ebs:   Updating   : ec2-utils-0.5-2.35.amzn1.noarch                            30/88
+    amazon-ebs:   Updating   : aws-cli-1.15.83-1.49.amzn1.noarch                          31/88
+    amazon-ebs:   Updating   : openssh-clients-7.4p1-16.71.amzn1.x86_64                   32/88
+    amazon-ebs:   Updating   : openssh-server-7.4p1-16.71.amzn1.x86_64                    33/88
+    amazon-ebs: warning: /etc/ssh/sshd_config created as /etc/ssh/sshd_config.rpmnew
+    amazon-ebs:   Updating   : ruby20-irb-2.0.0.648-1.31.amzn1.noarch                     34/88
+    amazon-ebs:   Updating   : python27-pip-9.0.3-1.26.amzn1.noarch                       35/88
+    amazon-ebs:   Updating   : aws-cfn-bootstrap-1.4-30.21.amzn1.noarch                   36/88
+    amazon-ebs:   Updating   : system-release-2018.03-0.0.noarch                          37/88
+    amazon-ebs:   Updating   : python27-crypto-2.6.1-1.15.amzn1.x86_64                    38/88
+    amazon-ebs:   Updating   : python27-devel-2.7.15-1.124.amzn1.x86_64                   39/88
+    amazon-ebs:   Updating   : wget-1.18-4.29.amzn1.x86_64                                40/88
+    amazon-ebs:   Updating   : tzdata-java-2018c-1.70.amzn1.noarch                        41/88
+    amazon-ebs:   Updating   : rpcbind-0.2.0-13.10.amzn1.x86_64                           42/88
+    amazon-ebs:   Updating   : hwdata-0.233-14.1.19.amzn1.noarch                          43/88
+    amazon-ebs:   Updating   : amazon-ssm-agent-2.3.274.0-1.amzn1.x86_64                  44/88
+    amazon-ebs:   Updating   : tzdata-2018c-1.70.amzn1.noarch                             45/88
+    amazon-ebs:   Cleanup    : cloud-init-0.7.6-2.15.amzn1.noarch                         46/88
+    amazon-ebs:   Cleanup    : python27-devel-2.7.13-2.122.amzn1.x86_64                   47/88
+    amazon-ebs:   Cleanup    : python27-pip-9.0.1-1.24.amzn1.noarch                       48/88
+    amazon-ebs:   Cleanup    : aws-cli-1.14.9-1.48.amzn1.noarch                           49/88
+    amazon-ebs:   Cleanup    : python27-botocore-1.8.13-1.66.amzn1.noarch                 50/88
+    amazon-ebs:   Cleanup    : ruby20-irb-2.0.0.648-1.30.amzn1.noarch                     51/88
+    amazon-ebs:   Cleanup    : ec2-utils-0.5-1.34.amzn1.noarch                            52/88
+    amazon-ebs:   Cleanup    : system-release-2017.09-0.1.noarch                          53/88
+    amazon-ebs:   Cleanup    : ec2-net-utils-0.5-1.34.amzn1.noarch                        54/88
+    amazon-ebs:   Cleanup    : aws-cfn-bootstrap-1.4-29.20.amzn1.noarch                   55/88
+    amazon-ebs:   Cleanup    : tzdata-java-2017b-1.69.amzn1.noarch                        56/88
+    amazon-ebs:   Cleanup    : hwdata-0.233-14.1.18.amzn1.noarch                          57/88
+    amazon-ebs:   Cleanup    : tzdata-2017b-1.69.amzn1.noarch                             58/88
+    amazon-ebs:   Cleanup    : rubygem20-bigdecimal-1.2.0-1.30.amzn1.x86_64               59/88
+    amazon-ebs:   Cleanup    : rubygems20-2.0.14.1-1.30.amzn1.noarch                      60/88
+    amazon-ebs:   Cleanup    : rubygem20-psych-2.0.0-1.30.amzn1.x86_64                    61/88
+    amazon-ebs:   Cleanup    : ruby20-2.0.0.648-1.30.amzn1.x86_64                         62/88
+    amazon-ebs:   Cleanup    : openssh-server-7.4p1-11.68.amzn1.x86_64                    63/88
+    amazon-ebs:   Cleanup    : openssh-clients-7.4p1-11.68.amzn1.x86_64                   64/88
+    amazon-ebs:   Cleanup    : e2fsprogs-1.42.12-4.40.amzn1.x86_64                        65/88
+    amazon-ebs:   Cleanup    : libxml2-python27-2.9.1-6.3.49.amzn1.x86_64                 66/88
+    amazon-ebs:   Cleanup    : openssh-7.4p1-11.68.amzn1.x86_64                           67/88
+    amazon-ebs:   Cleanup    : python27-crypto-2.6.1-1.14.amzn1.x86_64                    68/88
+    amazon-ebs:   Cleanup    : python27-libs-2.7.13-2.122.amzn1.x86_64                    69/88
+    amazon-ebs:   Cleanup    : python27-2.7.13-2.122.amzn1.x86_64                         70/88
+    amazon-ebs:   Cleanup    : ntp-4.2.6p5-44.34.amzn1.x86_64                             71/88
+    amazon-ebs:   Cleanup    : ntpdate-4.2.6p5-44.34.amzn1.x86_64                         72/88
+    amazon-ebs:   Cleanup    : e2fsprogs-libs-1.42.12-4.40.amzn1.x86_64                   73/88
+    amazon-ebs:   Cleanup    : libss-1.42.12-4.40.amzn1.x86_64                            74/88
+    amazon-ebs:   Cleanup    : ruby20-libs-2.0.0.648-1.30.amzn1.x86_64                    75/88
+    amazon-ebs:   Cleanup    : curl-7.53.1-14.81.amzn1.x86_64                             76/88
+    amazon-ebs:   Cleanup    : libcurl-7.53.1-14.81.amzn1.x86_64                          77/88
+    amazon-ebs:   Cleanup    : wget-1.18-3.28.amzn1.x86_64                                78/88
+    amazon-ebs:   Cleanup    : ca-certificates-2015.2.6-65.0.1.16.amzn1.noarch            79/88
+    amazon-ebs: Please ignore warnings about %{lpath}cacerts.rpmnew, they are expected as the new consolidated configuration feature is enabled
+    amazon-ebs: Please ignore warnings about %{lpath}ca-bundle.crt.rpmnew, they are expected as the new consolidated configuration feature is enabled
+    amazon-ebs: Please ignore warnings about %{lpath}ca-bundle.trust.crt.rpmnew, they are expected as the new consolidated configuration feature is enabled
+    amazon-ebs:   Cleanup    : krb5-libs-1.15.1-8.43.amzn1.x86_64                         80/88
+    amazon-ebs:   Cleanup    : 1:openssl-1.0.2k-8.106.amzn1.x86_64                        81/88
+    amazon-ebs:   Cleanup    : libcom_err-1.42.12-4.40.amzn1.x86_64                       82/88
+    amazon-ebs:   Cleanup    : openldap-2.4.40-12.30.amzn1.x86_64                         83/88
+    amazon-ebs:   Cleanup    : libxml2-2.9.1-6.3.49.amzn1.x86_64                          84/88
+    amazon-ebs:   Cleanup    : procps-3.2.8-30.14.amzn1.x86_64                            85/88
+    amazon-ebs:   Cleanup    : rpcbind-0.2.0-13.9.amzn1.x86_64                            86/88
+    amazon-ebs:   Cleanup    : 2:irqbalance-1.3.0-1.26.amzn1.x86_64                       87/88
+    amazon-ebs:   Cleanup    : amazon-ssm-agent-2.2.120.0-1.amzn1.x86_64                  88/88
+    amazon-ebs:   Verifying  : tzdata-2018c-1.70.amzn1.noarch                              1/88
+    amazon-ebs:   Verifying  : python27-2.7.15-1.124.amzn1.x86_64                          2/88
+    amazon-ebs:   Verifying  : 1:openssl-1.0.2k-16.146.amzn1.x86_64                        3/88
+    amazon-ebs:   Verifying  : openssh-clients-7.4p1-16.71.amzn1.x86_64                    4/88
+    amazon-ebs:   Verifying  : ruby20-2.0.0.648-1.31.amzn1.x86_64                          5/88
+    amazon-ebs:   Verifying  : amazon-ssm-agent-2.3.274.0-1.amzn1.x86_64                   6/88
+    amazon-ebs:   Verifying  : aws-cfn-bootstrap-1.4-30.21.amzn1.noarch                    7/88
+    amazon-ebs:   Verifying  : ec2-net-utils-0.5-2.35.amzn1.noarch                         8/88
+    amazon-ebs:   Verifying  : rubygems20-2.0.14.1-1.31.amzn1.noarch                       9/88
+    amazon-ebs:   Verifying  : e2fsprogs-libs-1.43.5-2.43.amzn1.x86_64                    10/88
+    amazon-ebs:   Verifying  : libxml2-2.9.1-6.3.52.amzn1.x86_64                          11/88
+    amazon-ebs:   Verifying  : libcom_err-1.43.5-2.43.amzn1.x86_64                        12/88
+    amazon-ebs:   Verifying  : cloud-init-0.7.6-2.17.amzn1.noarch                         13/88
+    amazon-ebs:   Verifying  : libxml2-python27-2.9.1-6.3.52.amzn1.x86_64                 14/88
+    amazon-ebs:   Verifying  : libss-1.43.5-2.43.amzn1.x86_64                             15/88
+    amazon-ebs:   Verifying  : python27-pip-9.0.3-1.26.amzn1.noarch                       16/88
+    amazon-ebs:   Verifying  : aws-cli-1.15.83-1.49.amzn1.noarch                          17/88
+    amazon-ebs:   Verifying  : hwdata-0.233-14.1.19.amzn1.noarch                          18/88
+    amazon-ebs:   Verifying  : rubygem20-bigdecimal-1.2.0-1.31.amzn1.x86_64               19/88
+    amazon-ebs:   Verifying  : ruby20-libs-2.0.0.648-1.31.amzn1.x86_64                    20/88
+    amazon-ebs:   Verifying  : 2:irqbalance-1.5.0-1.27.amzn1.x86_64                       21/88
+    amazon-ebs:   Verifying  : openssh-server-7.4p1-16.71.amzn1.x86_64                    22/88
+    amazon-ebs:   Verifying  : python27-botocore-1.10.82-1.67.amzn1.noarch                23/88
+    amazon-ebs:   Verifying  : python27-libs-2.7.15-1.124.amzn1.x86_64                    24/88
+    amazon-ebs:   Verifying  : procps-3.2.8-45.16.amzn1.x86_64                            25/88
+    amazon-ebs:   Verifying  : fuse-libs-2.9.4-1.17.amzn1.x86_64                          26/88
+    amazon-ebs:   Verifying  : ntpdate-4.2.8p12-1.39.amzn1.x86_64                         27/88
+    amazon-ebs:   Verifying  : ca-certificates-2017.2.14-65.0.1.17.amzn1.noarch           28/88
+    amazon-ebs:   Verifying  : libcurl-7.53.1-16.85.amzn1.x86_64                          29/88
+    amazon-ebs:   Verifying  : krb5-libs-1.15.1-19.43.amzn1.x86_64                        30/88
+    amazon-ebs:   Verifying  : system-release-2018.03-0.0.noarch                          31/88
+    amazon-ebs:   Verifying  : ntp-4.2.8p12-1.39.amzn1.x86_64                             32/88
+    amazon-ebs:   Verifying  : curl-7.53.1-16.85.amzn1.x86_64                             33/88
+    amazon-ebs:   Verifying  : openldap-2.4.40-16.31.amzn1.x86_64                         34/88
+    amazon-ebs:   Verifying  : rpcbind-0.2.0-13.10.amzn1.x86_64                           35/88
+    amazon-ebs:   Verifying  : wget-1.18-4.29.amzn1.x86_64                                36/88
+    amazon-ebs:   Verifying  : python27-crypto-2.6.1-1.15.amzn1.x86_64                    37/88
+    amazon-ebs:   Verifying  : openssh-7.4p1-16.71.amzn1.x86_64                           38/88
+    amazon-ebs:   Verifying  : python27-devel-2.7.15-1.124.amzn1.x86_64                   39/88
+    amazon-ebs:   Verifying  : e2fsprogs-1.43.5-2.43.amzn1.x86_64                         40/88
+    amazon-ebs:   Verifying  : tzdata-java-2018c-1.70.amzn1.noarch                        41/88
+    amazon-ebs:   Verifying  : ec2-utils-0.5-2.35.amzn1.noarch                            42/88
+    amazon-ebs:   Verifying  : ruby20-irb-2.0.0.648-1.31.amzn1.noarch                     43/88
+    amazon-ebs:   Verifying  : kernel-4.14.77-70.82.amzn1.x86_64                          44/88
+    amazon-ebs:   Verifying  : rubygem20-psych-2.0.0-1.31.amzn1.x86_64                    45/88
+    amazon-ebs:   Verifying  : hwdata-0.233-14.1.18.amzn1.noarch                          46/88
+    amazon-ebs:   Verifying  : rubygem20-bigdecimal-1.2.0-1.30.amzn1.x86_64               47/88
+    amazon-ebs:   Verifying  : ruby20-irb-2.0.0.648-1.30.amzn1.noarch                     48/88
+    amazon-ebs:   Verifying  : python27-botocore-1.8.13-1.66.amzn1.noarch                 49/88
+    amazon-ebs:   Verifying  : ec2-utils-0.5-1.34.amzn1.noarch                            50/88
+    amazon-ebs:   Verifying  : openldap-2.4.40-12.30.amzn1.x86_64                         51/88
+    amazon-ebs:   Verifying  : libcom_err-1.42.12-4.40.amzn1.x86_64                       52/88
+    amazon-ebs:   Verifying  : e2fsprogs-libs-1.42.12-4.40.amzn1.x86_64                   53/88
+    amazon-ebs:   Verifying  : ec2-net-utils-0.5-1.34.amzn1.noarch                        54/88
+    amazon-ebs:   Verifying  : openssh-7.4p1-11.68.amzn1.x86_64                           55/88
+    amazon-ebs:   Verifying  : ca-certificates-2015.2.6-65.0.1.16.amzn1.noarch            56/88
+    amazon-ebs:   Verifying  : tzdata-2017b-1.69.amzn1.noarch                             57/88
+    amazon-ebs:   Verifying  : ruby20-libs-2.0.0.648-1.30.amzn1.x86_64                    58/88
+    amazon-ebs:   Verifying  : python27-crypto-2.6.1-1.14.amzn1.x86_64                    59/88
+    amazon-ebs:   Verifying  : python27-pip-9.0.1-1.24.amzn1.noarch                       60/88
+    amazon-ebs:   Verifying  : aws-cfn-bootstrap-1.4-29.20.amzn1.noarch                   61/88
+    amazon-ebs:   Verifying  : 1:openssl-1.0.2k-8.106.amzn1.x86_64                        62/88
+    amazon-ebs:   Verifying  : libxml2-python27-2.9.1-6.3.49.amzn1.x86_64                 63/88
+    amazon-ebs:   Verifying  : 2:irqbalance-1.3.0-1.26.amzn1.x86_64                       64/88
+    amazon-ebs:   Verifying  : curl-7.53.1-14.81.amzn1.x86_64                             65/88
+    amazon-ebs:   Verifying  : system-release-2017.09-0.1.noarch                          66/88
+    amazon-ebs:   Verifying  : procps-3.2.8-30.14.amzn1.x86_64                            67/88
+    amazon-ebs:   Verifying  : rubygem20-psych-2.0.0-1.30.amzn1.x86_64                    68/88
+    amazon-ebs:   Verifying  : krb5-libs-1.15.1-8.43.amzn1.x86_64                         69/88
+    amazon-ebs:   Verifying  : wget-1.18-3.28.amzn1.x86_64                                70/88
+    amazon-ebs:   Verifying  : ruby20-2.0.0.648-1.30.amzn1.x86_64                         71/88
+    amazon-ebs:   Verifying  : rpcbind-0.2.0-13.9.amzn1.x86_64                            72/88
+    amazon-ebs:   Verifying  : python27-2.7.13-2.122.amzn1.x86_64                         73/88
+    amazon-ebs:   Verifying  : amazon-ssm-agent-2.2.120.0-1.amzn1.x86_64                  74/88
+    amazon-ebs:   Verifying  : e2fsprogs-1.42.12-4.40.amzn1.x86_64                        75/88
+    amazon-ebs:   Verifying  : libxml2-2.9.1-6.3.49.amzn1.x86_64                          76/88
+    amazon-ebs:   Verifying  : python27-libs-2.7.13-2.122.amzn1.x86_64                    77/88
+    amazon-ebs:   Verifying  : aws-cli-1.14.9-1.48.amzn1.noarch                           78/88
+    amazon-ebs:   Verifying  : libss-1.42.12-4.40.amzn1.x86_64                            79/88
+    amazon-ebs:   Verifying  : openssh-clients-7.4p1-11.68.amzn1.x86_64                   80/88
+    amazon-ebs:   Verifying  : ntpdate-4.2.6p5-44.34.amzn1.x86_64                         81/88
+    amazon-ebs:   Verifying  : tzdata-java-2017b-1.69.amzn1.noarch                        82/88
+    amazon-ebs:   Verifying  : python27-devel-2.7.13-2.122.amzn1.x86_64                   83/88
+    amazon-ebs:   Verifying  : ntp-4.2.6p5-44.34.amzn1.x86_64                             84/88
+    amazon-ebs:   Verifying  : cloud-init-0.7.6-2.15.amzn1.noarch                         85/88
+    amazon-ebs:   Verifying  : openssh-server-7.4p1-11.68.amzn1.x86_64                    86/88
+    amazon-ebs:   Verifying  : libcurl-7.53.1-14.81.amzn1.x86_64                          87/88
+    amazon-ebs:   Verifying  : rubygems20-2.0.14.1-1.30.amzn1.noarch                      88/88
+    amazon-ebs:
+    amazon-ebs: Installed:
+    amazon-ebs:   kernel.x86_64 0:4.14.77-70.82.amzn1
+    amazon-ebs:
+    amazon-ebs: Dependency Installed:
+    amazon-ebs:   fuse-libs.x86_64 0:2.9.4-1.17.amzn1
+    amazon-ebs:
+    amazon-ebs: Updated:
+    amazon-ebs:   amazon-ssm-agent.x86_64 0:2.3.274.0-1.amzn1
+    amazon-ebs:   aws-cfn-bootstrap.noarch 0:1.4-30.21.amzn1
+    amazon-ebs:   aws-cli.noarch 0:1.15.83-1.49.amzn1
+    amazon-ebs:   ca-certificates.noarch 0:2017.2.14-65.0.1.17.amzn1
+    amazon-ebs:   cloud-init.noarch 0:0.7.6-2.17.amzn1
+    amazon-ebs:   curl.x86_64 0:7.53.1-16.85.amzn1
+    amazon-ebs:   e2fsprogs.x86_64 0:1.43.5-2.43.amzn1
+    amazon-ebs:   e2fsprogs-libs.x86_64 0:1.43.5-2.43.amzn1
+    amazon-ebs:   ec2-net-utils.noarch 0:0.5-2.35.amzn1
+    amazon-ebs:   ec2-utils.noarch 0:0.5-2.35.amzn1
+    amazon-ebs:   hwdata.noarch 0:0.233-14.1.19.amzn1
+    amazon-ebs:   irqbalance.x86_64 2:1.5.0-1.27.amzn1
+    amazon-ebs:   krb5-libs.x86_64 0:1.15.1-19.43.amzn1
+    amazon-ebs:   libcom_err.x86_64 0:1.43.5-2.43.amzn1
+    amazon-ebs:   libcurl.x86_64 0:7.53.1-16.85.amzn1
+    amazon-ebs:   libss.x86_64 0:1.43.5-2.43.amzn1
+    amazon-ebs:   libxml2.x86_64 0:2.9.1-6.3.52.amzn1
+    amazon-ebs:   libxml2-python27.x86_64 0:2.9.1-6.3.52.amzn1
+    amazon-ebs:   ntp.x86_64 0:4.2.8p12-1.39.amzn1
+    amazon-ebs:   ntpdate.x86_64 0:4.2.8p12-1.39.amzn1
+    amazon-ebs:   openldap.x86_64 0:2.4.40-16.31.amzn1
+    amazon-ebs:   openssh.x86_64 0:7.4p1-16.71.amzn1
+    amazon-ebs:   openssh-clients.x86_64 0:7.4p1-16.71.amzn1
+    amazon-ebs:   openssh-server.x86_64 0:7.4p1-16.71.amzn1
+    amazon-ebs:   openssl.x86_64 1:1.0.2k-16.146.amzn1
+    amazon-ebs:   procps.x86_64 0:3.2.8-45.16.amzn1
+    amazon-ebs:   python27.x86_64 0:2.7.15-1.124.amzn1
+    amazon-ebs:   python27-botocore.noarch 0:1.10.82-1.67.amzn1
+    amazon-ebs:   python27-crypto.x86_64 0:2.6.1-1.15.amzn1
+    amazon-ebs:   python27-devel.x86_64 0:2.7.15-1.124.amzn1
+    amazon-ebs:   python27-libs.x86_64 0:2.7.15-1.124.amzn1
+    amazon-ebs:   python27-pip.noarch 0:9.0.3-1.26.amzn1
+    amazon-ebs:   rpcbind.x86_64 0:0.2.0-13.10.amzn1
+    amazon-ebs:   ruby20.x86_64 0:2.0.0.648-1.31.amzn1
+    amazon-ebs:   ruby20-irb.noarch 0:2.0.0.648-1.31.amzn1
+    amazon-ebs:   ruby20-libs.x86_64 0:2.0.0.648-1.31.amzn1
+    amazon-ebs:   rubygem20-bigdecimal.x86_64 0:1.2.0-1.31.amzn1
+    amazon-ebs:   rubygem20-psych.x86_64 0:2.0.0-1.31.amzn1
+    amazon-ebs:   rubygems20.noarch 0:2.0.14.1-1.31.amzn1
+    amazon-ebs:   system-release.noarch 0:2018.03-0.0
+    amazon-ebs:   tzdata.noarch 0:2018c-1.70.amzn1
+    amazon-ebs:   tzdata-java.noarch 0:2018c-1.70.amzn1
+    amazon-ebs:   wget.x86_64 0:1.18-4.29.amzn1
+    amazon-ebs:
+    amazon-ebs: Complete!
+    amazon-ebs: Loaded plugins: priorities, update-motd, upgrade-helper
+    amazon-ebs: Resolving Dependencies
+    amazon-ebs: --> Running transaction check
+    amazon-ebs: ---> Package docker.x86_64 0:18.06.1ce-5.22.amzn1 will be installed
+    amazon-ebs: --> Processing Dependency: xfsprogs for package: docker-18.06.1ce-5.22.amzn1.x86_64
+    amazon-ebs: --> Processing Dependency: pigz for package: docker-18.06.1ce-5.22.amzn1.x86_64
+    amazon-ebs: --> Processing Dependency: libseccomp.so.2()(64bit) for package: docker-18.06.1ce-5.22.amzn1.x86_64
+    amazon-ebs: --> Processing Dependency: libltdl.so.7()(64bit) for package: docker-18.06.1ce-5.22.amzn1.x86_64
+    amazon-ebs: --> Running transaction check
+    amazon-ebs: ---> Package libseccomp.x86_64 0:2.3.1-2.4.amzn1 will be installed
+    amazon-ebs: ---> Package libtool-ltdl.x86_64 0:2.4.2-20.4.8.5.32.amzn1 will be installed
+    amazon-ebs: ---> Package pigz.x86_64 0:2.3.3-1.6.amzn1 will be installed
+    amazon-ebs: ---> Package xfsprogs.x86_64 0:4.5.0-9.21.amzn1 will be installed
+    amazon-ebs: --> Finished Dependency Resolution
+    amazon-ebs:
+    amazon-ebs: Dependencies Resolved
+    amazon-ebs:
+    amazon-ebs: ================================================================================
+    amazon-ebs:  Package          Arch       Version                     Repository        Size
+    amazon-ebs: ================================================================================
+    amazon-ebs: Installing:
+    amazon-ebs:  docker           x86_64     18.06.1ce-5.22.amzn1        amzn-updates      45 M
+    amazon-ebs: Installing for dependencies:
+    amazon-ebs:  libseccomp       x86_64     2.3.1-2.4.amzn1             amzn-main         79 k
+    amazon-ebs:  libtool-ltdl     x86_64     2.4.2-20.4.8.5.32.amzn1     amzn-main         51 k
+    amazon-ebs:  pigz             x86_64     2.3.3-1.6.amzn1             amzn-main         71 k
+    amazon-ebs:  xfsprogs         x86_64     4.5.0-9.21.amzn1            amzn-main        1.7 M
+    amazon-ebs:
+    amazon-ebs: Transaction Summary
+    amazon-ebs: ================================================================================
+    amazon-ebs: Install  1 Package (+4 Dependent packages)
+    amazon-ebs:
+    amazon-ebs: Total download size: 47 M
+    amazon-ebs: Installed size: 154 M
+    amazon-ebs: Downloading packages:
+    amazon-ebs: --------------------------------------------------------------------------------
+    amazon-ebs: Total                                               18 MB/s |  47 MB  00:02
+    amazon-ebs: Running transaction check
+    amazon-ebs: Running transaction test
+    amazon-ebs: Transaction test succeeded
+    amazon-ebs: Running transaction
+    amazon-ebs:   Installing : libseccomp-2.3.1-2.4.amzn1.x86_64                            1/5
+    amazon-ebs:   Installing : libtool-ltdl-2.4.2-20.4.8.5.32.amzn1.x86_64                  2/5
+    amazon-ebs:   Installing : pigz-2.3.3-1.6.amzn1.x86_64                                  3/5
+    amazon-ebs:   Installing : xfsprogs-4.5.0-9.21.amzn1.x86_64                             4/5
+    amazon-ebs:   Installing : docker-18.06.1ce-5.22.amzn1.x86_64                           5/5
+    amazon-ebs:   Verifying  : xfsprogs-4.5.0-9.21.amzn1.x86_64                             1/5
+    amazon-ebs:   Verifying  : pigz-2.3.3-1.6.amzn1.x86_64                                  2/5
+    amazon-ebs:   Verifying  : libtool-ltdl-2.4.2-20.4.8.5.32.amzn1.x86_64                  3/5
+    amazon-ebs:   Verifying  : docker-18.06.1ce-5.22.amzn1.x86_64                           4/5
+    amazon-ebs:   Verifying  : libseccomp-2.3.1-2.4.amzn1.x86_64                            5/5
+    amazon-ebs:
+    amazon-ebs: Installed:
+    amazon-ebs:   docker.x86_64 0:18.06.1ce-5.22.amzn1
+    amazon-ebs:
+    amazon-ebs: Dependency Installed:
+    amazon-ebs:   libseccomp.x86_64 0:2.3.1-2.4.amzn1
+    amazon-ebs:   libtool-ltdl.x86_64 0:2.4.2-20.4.8.5.32.amzn1
+    amazon-ebs:   pigz.x86_64 0:2.3.3-1.6.amzn1
+    amazon-ebs:   xfsprogs.x86_64 0:4.5.0-9.21.amzn1
+    amazon-ebs:
+    amazon-ebs: Complete!
+    amazon-ebs: Starting cgconfig service: [  OK  ]
+    amazon-ebs: Starting docker:	.[  OK  ]
+==> amazon-ebs: Stopping the source instance...
+    amazon-ebs: Stopping instance, attempt 1
+==> amazon-ebs: Waiting for the instance to stop...
+==> amazon-ebs: Creating unencrypted AMI docker-17.12.1-ce from instance i-0190a4ebd4dcdc49b
+    amazon-ebs: AMI: ami-006a73b3851ff4b8d
+==> amazon-ebs: Waiting for AMI to become ready...
+==> amazon-ebs: Modifying attributes on AMI (ami-006a73b3851ff4b8d)...
+    amazon-ebs: Modifying: description
+==> amazon-ebs: Modifying attributes on snapshot (snap-0ef59f4e15f2e278e)...
+==> amazon-ebs: Terminating the source AWS instance...
+==> amazon-ebs: Cleaning up any extra volumes...
+==> amazon-ebs: No volumes to clean up, skipping
+==> amazon-ebs: Deleting temporary security group...
+==> amazon-ebs: Deleting temporary keypair...
+Build 'amazon-ebs' finished.
+
+==> Builds finished. The artifacts of successful builds are:
+--> amazon-ebs: AMIs were created:
+us-east-1: ami-006a73b3851ff4b8d
+```
