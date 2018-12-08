@@ -51,7 +51,7 @@ A template has the following three main parts.
 
 The configuration file used to define what image we want built and how is called a template in Packer terminology. The format of a template is simple JSON.
 
-Official link: [pakcer](https://www.packer.io/intro/getting-started/build-image.html)
+Official link: [packer](https://www.packer.io/intro/getting-started/build-image.html)
 
 Below is an example of VM being created on Virtual box installed on local machine.
 
@@ -68,33 +68,35 @@ Below is an example of VM being created on Virtual box installed on local machin
     {
       "type": "shell",
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "scripts/provision_vbox.sh"
+      "script": "scripts/provision_vbox.sh" >> used to perform custom actions post commissioning of machine.
     }
   ],  
 
   "builders": [{
 
-          "type": "virtualbox-iso",
-          "iso_url": "http://centos.mirroring.pulsant.co.uk/7/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso",
+          "type": "virtualbox-iso", >> This is where we can define type. It can be vmware-iso, amazon-ebs etc
+          "iso_url": "http://centos.mirroring.pulsant.co.uk/7/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso", 
           "iso_checksum": "714acc0aefb32b7d51b515e25546835e55a90da9fb00417fbee2d03a62801efd",
           "iso_checksum_type": "sha256",
-          "ssh_username": "root",
-          "ssh_password": "root",
-          "communicator":"ssh",
+          "ssh_username": "root", >> id for iso
+          "ssh_password": "root",  >> password for iso
+          "communicator":"ssh", >> needed for ssh into the box
           "ssh_port": 22,
-          "ssh_timeout": "20m",
-          "boot_wait": "10s",
+          "ssh_timeout": "20m", >> timeout for the packer incase something goes wrong while build.
+          "boot_wait": "10s", >> time before the packer boots the machine to be created using ssh.
           "guest_os_type": "RedHat_64",
-          "headless": true,
-          "http_directory": "http",
+          "headless": true, >> for silent installation
+          "http_directory": "http", >> dir where kickstart file is placed.
           "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
           "boot_command": [
-            "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>" >> ks.cfg is kickstart file applied at boot time which contains the configuration of machine.
           ]
           
   }]
 }
 ```
+
+
 
 ##  Provisioners
 
