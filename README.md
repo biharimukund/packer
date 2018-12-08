@@ -1,13 +1,14 @@
 # packer
 
-This repo can be used to create images for VMs using packer.
+This repo can be used to create images for VMs using packer on Virtual Box or ESXi.
 
-* centos7-vbox.json can be used to commision a Centos VM tempalte for Virtual Box.
+##centos7-vbox.json can be used to commision a Centos VM tempalte for Virtual Box.
+
+
+**Command: packer build centos7-vbox.json**
 
 ```
-Command: packer build centos7-vmware.json
-
-Sample Output:
+Sample Output for Virtual box:
 =====================================================================
 
 virtualbox-iso output will be in this color.
@@ -51,3 +52,30 @@ total 1442768
 -rw-r--r--  1 mukund mukund  732568064 Dec  1 23:28 packer-virtualbox-iso-1543686774-disk001.vmdk
 
 ```
+
+##centos7-vmware.json can be used to commision a Centos VM tempalte on ESXi.
+
+_You can set ESXi on you local machine by downloading the VMware-VMvisor-Installer-6.7.0-8169922.x86_64.iso available on VMware official website. Trail copy has vailidity of 60 days. After it expires, simply uninstall it and resinstall to use it for next 60 days. Do not forget to take backup while uninstalling._
+
+You need to enable SSH in you ESXI host so that pakcer can connect to it. If you are using Mac, then you need to install VMware Fusion which will run the ESXi on your local machine.
+
+Steps to enable SSH on ESXi:
+
+* Login to ESXi using the URL and traverse to host >> Manage >> services >> Select TSM-SSH and start.
+
+    e.g URL : https://192.168.200.130/ui/#/host/manage/services
+
+* Firewall needs to be disabled so that port 22 is open for packer incoming traffic in ESXi.
+    * Command:   
+        * esxcli network firewall get
+        * esxcli network firewall unload        
+
+After these steps you can run the packet to build VMs in ESXi using below command:
+
+**packer build centos7-vmware.json**
+
+Sample Output for vmware-iso:
+=========================================
+
+![Alt text](img/vmware_iso_output.jpeg?raw=true "vmware_iso_output")
+

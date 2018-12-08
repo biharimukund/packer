@@ -5,5 +5,4 @@
 
 echo "this is test file while VM was created" > test.txt
 
-# Add `sync` so Packer doesn't quit too early, before the large file is deleted.
-sync
+
