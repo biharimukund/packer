@@ -85,15 +85,18 @@ Sample Output for vmware-iso:
 
 ![Alt text](img/vmware_iso_output.jpeg?raw=true "vmware_iso_output")
 
-## Steps for Coresos on ESXi:
+## Steps for Coreos on ESXi:
 
 **Command: PACKER_LOG=1 packer build coreos-vmware.json**
 
-If  you do not want to run in debug mode, simply run withou *PACKER_LOG=1*
+If  you do not want to run in debug mode, simply run without *PACKER_LOG=1*
 
-Sample O/P run in debig mode:
+Sample O/P run in debug mode:
 
 ```
+
+packer mukund$ PACKER_LOG=1 packer build coreos-vmware.json 
+
 2018/12/08 18:16:14 Packer Target OS/Arch: darwin amd64
 2018/12/08 18:16:14 Built with Go Version: go1.11.1
 2018/12/08 18:16:14 Detected home directory from env var: /Users/mukund_bihari
