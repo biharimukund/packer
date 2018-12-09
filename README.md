@@ -1232,3 +1232,113 @@ Build 'amazon-ebs' finished.
 --> amazon-ebs: AMIs were created:
 us-east-1: ami-006a73b3851ff4b8d
 ```
+
+You can use below command to log into the ec2 instance:
+
+```
+aws ec2 run-instances --image-id ami-006a73b3851ff4b8d \
+> --count 1 --instance-type t2.micro \
+> --key-name packer_q345234-f4g5-gh56-56tg-34g43t34g32w  --security-group-ids sg-34qtegsdfgswete \
+> --region us-east-1 \
+> --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=packer-ec2}]' 
+```
+```
+{
+    "Instances": [
+        {
+            "Monitoring": {
+                "State": "disabled"
+            }, 
+            "PublicDnsName": "", 
+            "StateReason": {
+                "Message": "pending", 
+                "Code": "pending"
+            }, 
+            "State": {
+                "Code": 0, 
+                "Name": "pending"
+            }, 
+            "EbsOptimized": false, 
+            "LaunchTime": "2018-12-08T18:20:16.000Z", 
+            "PrivateIpAddress": "172.xx.xx.xx", 
+            "ProductCodes": [], 
+            "VpcId": "vpc-sdfgt34", 
+            "CpuOptions": {
+                "CoreCount": 1, 
+                "ThreadsPerCore": 1
+            }, 
+            "StateTransitionReason": "", 
+            "InstanceId": "i-34w5ertdsf34", 
+            "ImageId": "ami-006a73b3851ff4b8d", 
+            "PrivateDnsName": "ip-172-xx-xx-xx.ec2.internal", 
+            "KeyName": "packer_q345234-f4g5-gh56-56tg-34g43t34g32w", 
+            "SecurityGroups": [
+                {
+                    "GroupName": "packer_q345234-f4g5-gh56-56tg-34g43t34g32w", 
+                    "GroupId": "sg-e4q5trgdsf34er"
+                }
+            ], 
+            "ClientToken": "", 
+            "SubnetId": "subnet-34erfgewrrf", 
+            "InstanceType": "t2.micro", 
+            "NetworkInterfaces": [
+                {
+                    "Status": "in-use", 
+                    "MacAddress": "12:ee:45:91:23:fc", 
+                    "SourceDestCheck": true, 
+                    "VpcId": "vpc-32rwe3w", 
+                    "Description": "", 
+                    "NetworkInterfaceId": "eni-34ert23wed32", 
+                    "PrivateIpAddresses": [
+                        {
+                            "PrivateDnsName": "ip-172-xx-xx-xx.ec2.internal", 
+                            "Primary": true, 
+                            "PrivateIpAddress": "172.xx.xx.xx"
+                        }
+                    ], 
+                    "PrivateDnsName": "ip-172-xx-xx-xx.ec2.internal", 
+                    "Attachment": {
+                        "Status": "attaching", 
+                        "DeviceIndex": 0, 
+                        "DeleteOnTermination": true, 
+                        "AttachmentId": "eni-attach-32rwesdv4", 
+                        "AttachTime": "2018-12-08T18:20:16.000Z"
+                    }, 
+                    "Groups": [
+                        {
+                            "GroupName": "packer_q345234-f4g5-gh56-56tg-34g43t34g32w", 
+                            "GroupId": "sg-34etgrf34"
+                        }
+                    ], 
+                    "Ipv6Addresses": [], 
+                    "OwnerId": "3453456u873", 
+                    "SubnetId": "subnet-3erf4", 
+                    "PrivateIpAddress": "172.xx.xx.xx"
+                }
+            ], 
+            "SourceDestCheck": true, 
+            "Placement": {
+                "Tenancy": "default", 
+                "GroupName": "", 
+                "AvailabilityZone": "us-east-1c"
+            }, 
+            "Hypervisor": "xen", 
+            "BlockDeviceMappings": [], 
+            "Architecture": "x86_64", 
+            "RootDeviceType": "ebs", 
+            "RootDeviceName": "/dev/xvda", 
+            "VirtualizationType": "hvm", 
+            "Tags": [
+                {
+                    "Value": "packer-ec2", 
+                    "Key": "Name"
+                }
+            ], 
+            "AmiLaunchIndex": 0
+        }
+    ], 
+    "ReservationId": "r-3245rtyhgtr54", 
+    "Groups": [], 
+    "OwnerId": "34ertgre4543r"
+}
+```
