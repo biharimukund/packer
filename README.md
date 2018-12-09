@@ -733,8 +733,8 @@ amazon-ebs output will be in this color.
 
 ==> amazon-ebs: Prevalidating AMI Name: docker-17.12.1-ce
     amazon-ebs: Found Image ID: ami-1853ac65
-==> amazon-ebs: Creating temporary keypair: packer_5c0bec8f-3203-d525-25a8-7e4b27c27ba8
-==> amazon-ebs: Creating temporary security group for this instance: packer_5c0bec91-fd7e-aaa4-e980-46e505c7c5e4
+==> amazon-ebs: Creating temporary keypair: packer_q345234-f4g5-gh56-56tg-34g43t34g32w
+==> amazon-ebs: Creating temporary security group for this instance: packer_q345234-f4g5-gh56-56tg-34g43t34g32w
 ==> amazon-ebs: Authorizing access to port 22 from 0.0.0.0/0 in the temporary security group...
 ==> amazon-ebs: Launching a source AWS instance...
 ==> amazon-ebs: Adding tags to source instance
